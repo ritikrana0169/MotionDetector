@@ -58,6 +58,6 @@ if __name__ == '__main__':
     motion_thread = threading.Thread(target=detect_motion)
     motion_thread.daemon = True
     motion_thread.start()
-    
+     
     # Run the Flask app with SocketIO, allowing unsafe Werkzeug for production
     socketio.run(app, debug=True, allow_unsafe_werkzeug=True)
