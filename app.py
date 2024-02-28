@@ -60,4 +60,4 @@ if __name__ == '__main__':
     motion_thread.start()
      
     # Run the Flask app with SocketIO, allowing unsafe Werkzeug for production
-    socketio.run(app, debug=True, allow_unsafe_werkzeug=True)
+    socketio.run(app, debug=True, allow_unsafe_werkzeug=True,port=9876)
