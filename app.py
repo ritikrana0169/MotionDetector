@@ -8,7 +8,7 @@ socketio = SocketIO(app)
 motion_count = 0  # Global variable to keep track of motion count
 lock = threading.Lock()  # Lock to ensure thread safety for motion_count
 
-@app.route('/')
+@app.route('/app')
 def index():
     return render_template('index.html', count=motion_count)
 
