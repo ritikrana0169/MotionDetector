@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motion Detector</title>
+    <style>
+        /* CSS styles for centering elements */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Style for motion status */
+        #motionStatus {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Style for motion count */
+        #motionCount {
+            text-align: center;
+            color: #555;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        /* Style for motion video */
+        #motionVideo {
+            display: block;
+            margin: 0 auto;
+            max-width: 80%;
+            height: auto;
+            border: 4px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- <div id="motionStatus">Motion Detected</div> -->
+    <div id="motionCount">Motion Count: <span id="count">0</span></div>
+    <img id="motionVideo" src="{{ url_for('video_feed') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        // Function to update motion count
+        function updateMotionCount(count) {
+            document.getElementById('count').innerText = count;
+            console.log("Motion count : " + count);
+        }
+
+        // Update motion count when receiving data from server
+        socket.on('motion_count', function(data) {
+            updateMotionCount(data.count);
+        });
+
+        // Update motion count every 10 milliseconds
+        setInterval(function() {
+            // Fetch updated motion count from the server
+            socket.emit('get_motion_count');
+        }, 10);
+    </script>
+</body>
+</html>
